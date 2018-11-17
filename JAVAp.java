@@ -3,8 +3,8 @@ import java.awt.*;
 import java.util.*;
 import java.awt.event.*;
 public class JAVAp extends JFrame{
-	private JComboBox jcb  = new JComboBox();
-	private JComboBox jcbFontSize  = new JComboBox();
+	public JComboBox jcb  = new JComboBox();
+	public JComboBox jcbFontSize  = new JComboBox();
   public JAVAp(){
        setLayout(new FlowLayout());
        JMenu menu1 =new JMenu("File");
