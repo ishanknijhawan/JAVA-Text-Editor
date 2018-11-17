@@ -2,10 +2,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 import java.awt.event.*;
-public class JAVAp extends JFrame{
+public class JAVAp extends JFrame { 
+	
 	public JComboBox jcb  = new JComboBox();
-	public JComboBox jcbFontSize  = new JComboBox();
+	public JComboBox jcbFontSize = new JComboBox();
+	public JTextArea jtf = new JTextArea();
+	public JPanel panel1 = new JPanel(new FlowLayout(FlowLayout.LEFT));
+	public JPanel panel2 = new JPanel(new GridLayout());
+	
   public JAVAp(){
+	  
        setLayout(new FlowLayout());
        JMenu menu1 =new JMenu("File");
        JMenu menu2 =new JMenu("Edit");
@@ -42,8 +48,6 @@ public class JAVAp extends JFrame{
        menu3.add(i12);
        menu3.add(i13);
        
-       mb.add(jcb);
-       mb.add(jcbFontSize);
        for(int i=6;i<=50;i+=2)
     	   jcbFontSize.addItem(i);
        GraphicsEnvironment e = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -54,11 +58,17 @@ public class JAVAp extends JFrame{
        mb.add(menu1);
        mb.add(menu2);
        mb.add(menu3);
-       add(mb);
+       mb.add(jcb);
+       mb.add(jcbFontSize);
+       panel1.add(mb);
+       panel2.add(jtf);
+       add(panel1);
+       add(panel2);
        }
   public static void main(String[] args)
     {
      JAVAp w =new JAVAp();
+     w.setLayout(new GridLayout(2,1));
      w.setSize(900,600);
      w.setTitle("Text Editor");
      w.setLocationRelativeTo(null);
