@@ -1,8 +1,12 @@
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+import javax.swing.plaf.metal.MetalLookAndFeel;
+import javax.swing.plaf.metal.OceanTheme;
+
 import java.awt.*;
 import java.util.*;
 import java.awt.event.*;
+import javax.swing.text.*;
 public class JAVAp extends JFrame implements ActionListener { 
 	
 	public JComboBox jcb  = new JComboBox();
@@ -28,6 +32,14 @@ public class JAVAp extends JFrame implements ActionListener {
        JMenu menu2 =new JMenu("Edit");
        JMenu menu3 =new JMenu("Insert");
        panel1.setLayout(new BorderLayout());
+       
+       try { 
+           UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel"); 
+ 
+           MetalLookAndFeel.setCurrentTheme(new OceanTheme()); 
+       } 
+       catch (Exception e) { 
+       } 
        
        JScrollPane sc = new JScrollPane(jtf);
        sc.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -58,9 +70,9 @@ public class JAVAp extends JFrame implements ActionListener {
          }
        );
        
-       JMenuItem i1= new JMenuItem("Open");
-       JMenuItem i2= new JMenuItem("Save");
-       JMenuItem i3= new JMenuItem("SaveAs");
+       JMenuItem i1= new JMenuItem("New");
+       JMenuItem i2= new JMenuItem("Open");
+       JMenuItem i3= new JMenuItem("Save");
        JMenuItem i4= new JMenuItem("Cut");
        JMenuItem i5= new JMenuItem("Copy");
        JMenuItem i6= new JMenuItem("Paste");
@@ -73,6 +85,10 @@ public class JAVAp extends JFrame implements ActionListener {
        JMenuItem i13= new JMenuItem("Octagon");
        JMenuItem i14= new JMenuItem("Case Upper");
        JMenuItem i15= new JMenuItem("Case Lower");
+       
+       bold.addActionListener(e ->changeStyle());
+       Italic.addActionListener(e ->changeStyle2());
+       UL.addActionListener(e ->changeStyle3());
        
        bold.setFont(new Font("Arial Black",Font.BOLD,14));
        Italic.setFont(new Font("Times New Roman",Font.ITALIC,16));
@@ -128,7 +144,51 @@ public class JAVAp extends JFrame implements ActionListener {
   }
 @Override
 public void actionPerformed(ActionEvent e) {
-	// TODO Auto-generated method stub
-	
 }
+public void changeStyle() {
+    StyledDocument doc = (StyledDocument) jtf.getDocument();
+    int selectionEnd = jtf.getSelectionEnd();
+    int selectionStart = jtf.getSelectionStart();
+    if (selectionStart == selectionEnd) {
+      return;
+    }
+    Element element = doc.getCharacterElement(selectionStart);
+    AttributeSet as = element.getAttributes();
+
+    MutableAttributeSet asNew = new SimpleAttributeSet(as.copyAttributes());
+    StyleConstants.setBold(asNew, !StyleConstants.isBold(as));
+    doc.setCharacterAttributes(selectionStart, jtf.getSelectedText()
+        .length(), asNew, true);
+  }
+public void changeStyle2() {
+    StyledDocument doc = (StyledDocument) jtf.getDocument();
+    int selectionEnd = jtf.getSelectionEnd();
+    int selectionStart = jtf.getSelectionStart();
+    if (selectionStart == selectionEnd) {
+      return;
+    }
+    Element element = doc.getCharacterElement(selectionStart);
+    AttributeSet as = element.getAttributes();
+
+    MutableAttributeSet asNew = new SimpleAttributeSet(as.copyAttributes());
+    StyleConstants.setItalic(asNew, !StyleConstants.isItalic(as));
+    doc.setCharacterAttributes(selectionStart, jtf.getSelectedText()
+        .length(), asNew, true);
+  }
+public void changeStyle3() {
+    StyledDocument doc = (StyledDocument) jtf.getDocument();
+    int selectionEnd = jtf.getSelectionEnd();
+    int selectionStart = jtf.getSelectionStart();
+    if (selectionStart == selectionEnd) {
+      return;
+    }
+    Element element = doc.getCharacterElement(selectionStart);
+    AttributeSet as = element.getAttributes();
+
+    MutableAttributeSet asNew = new SimpleAttributeSet(as.copyAttributes());
+    StyleConstants.setUnderline(asNew, !StyleConstants.isUnderline(as));
+    doc.setCharacterAttributes(selectionStart, jtf.getSelectedText()
+        .length(), asNew, true);
+  }
+
 }
