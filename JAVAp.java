@@ -10,7 +10,7 @@ public class JAVAp extends JFrame implements ActionListener {
 	public JComboBox jcb  = new JComboBox();
 	public JComboBox jcbFontSize = new JComboBox<String>(new String[] {"1","2", "4", "6",
 	"8", "10","12","14","16","18","20","22","24" });
-	public static JTextArea jtf = new JTextArea();
+	public static JTextPane jtf = new JTextPane();
 	public JTextField tf = new JTextField(10);
 	public JTextField tf2 = new JTextField(10);
 	public JPanel panel1 = new JPanel();
@@ -76,53 +76,56 @@ public class JAVAp extends JFrame implements ActionListener {
        JMenuItem i14= new JMenuItem("Case Upper");
        JMenuItem i15= new JMenuItem("Case Lower");
        JMenuItem i16= new JMenuItem("Count words & charachters");
+       
        bold.addActionListener(e ->changeStyle());
        Italic.addActionListener(e ->changeStyle2());
        UL.addActionListener(e ->changeStyle3());
        
-       i1.addActionListener(this); 
+       i1.addActionListener(this);
        i2.addActionListener(this); 
        i3.addActionListener(this);
        i4.addActionListener(new ActionListener()
-    		   {
-    	   public void actionPerformed(ActionEvent e1)
-    	   {
-    		   jtf.cut();
-    	   }
-    		   });
-       i5.addActionListener(new ActionListener()
 	   {
    public void actionPerformed(ActionEvent e1)
    {
-	   jtf.copy();
+	   jtf.cut();
    }
 	   });
-       i6.addActionListener(new ActionListener()
+	i5.addActionListener(new ActionListener()
+	{
+	public void actionPerformed(ActionEvent e1)
+	{
+	jtf.copy();
+	}
+	});
+	i6.addActionListener(new ActionListener()
+	{
+	public void actionPerformed(ActionEvent e1)
+	{
+	jtf.paste();
+	}
+	});
+	
+	i16.addActionListener(new ActionListener()
 	   {
-   public void actionPerformed(ActionEvent e1)
-   {
-	   jtf.paste();
-   }
+	public void actionPerformed(ActionEvent e1)
+	{
+		   String s1 =jtf.getSelectedText();
+	int length=0,words=1;
+	int i;
+	for(i=0;i<s1.length()-1;i++)
+	{
+	if (((s1.charAt(i) == ' ') && (s1.charAt(i + 1) != ' '))||((s1.charAt(i) == ',') && (s1.charAt(i + 1) != ','))||((s1.charAt(i) == '.') && (s1.charAt(i + 1) != '.')))
+		{
+			words++;
+		}   
+	}
+	tf.setText(String.valueOf(words));
+	tf2.setText(String.valueOf(s1.length()));
+	}
+
 	   });
-   i16.addActionListener(new ActionListener()
-    		   {
-    	   public void actionPerformed(ActionEvent e1)
-    	   {
-    		   String s1 =jtf.getSelectedText();
-    int length=0,words=1;
-     int i;
-    for(i=0;i<s1.length()-1;i++)
-       {
-           if (((s1.charAt(i) == ' ') && (s1.charAt(i + 1) != ' '))||((s1.charAt(i) == ',') && (s1.charAt(i + 1) != ','))||((s1.charAt(i) == '.') && (s1.charAt(i + 1) != '.')))
-			{
-				words++;
-			}   
-       }
-    tf.setText(String.valueOf(words));
-    tf2.setText(String.valueOf(s1.length()));
-    	   }
        
-    		   });
        bold.setFont(new Font("Arial Black",Font.BOLD,14));
        Italic.setFont(new Font("Times New Roman",Font.ITALIC,16));
        UL.setFont(new Font("Times New Roman",Font.BOLD,16));
@@ -130,7 +133,6 @@ public class JAVAp extends JFrame implements ActionListener {
        menu1.add(i1);
        menu1.add(i2);
        menu1.add(i3);
-       menu1.add(i16);
        menu2.add(i4);
        menu2.add(i5);
        menu2.add(i6);
@@ -143,6 +145,7 @@ public class JAVAp extends JFrame implements ActionListener {
        menu3.add(i11);
        menu3.add(i12);
        menu3.add(i13);
+       menu2.add(i16);
        String arr[] = new String[20];
        
        GraphicsEnvironment e = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -167,8 +170,11 @@ public class JAVAp extends JFrame implements ActionListener {
        }
            @Override
             public void actionPerformed(ActionEvent e) {
-               String s = e.getActionCommand(); 
-
+               String s = e.getActionCommand();
+               if (s.equals("New")) { 
+                   jtf.setText(""); 
+               }      
+               
          if (s.equals("Save")) { 
             // Create an object of JFileChooser class 
             JFileChooser j = new JFileChooser("f:"); 
@@ -200,9 +206,6 @@ public class JAVAp extends JFrame implements ActionListener {
             } 
             
         }  
-         else if (s.equals("New")) { 
-             jtf.setText(""); 
-         } 
        if (s.equals("Open")) { 
             // Create an object of JFileChooser class 
             JFileChooser j = new JFileChooser("f:"); 
@@ -241,7 +244,6 @@ public class JAVAp extends JFrame implements ActionListener {
                 } 
             } 
      }
-    
 }
   public static void main(String[] args)
     {
@@ -300,4 +302,4 @@ public class JAVAp extends JFrame implements ActionListener {
 	    doc.setCharacterAttributes(selectionStart, jtf.getSelectedText()
 	        .length(), asNew, true);
 	  }
-    }
+}
